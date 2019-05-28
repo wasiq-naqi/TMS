@@ -1,0 +1,177 @@
+<% var pageType = pageType %>
+<% var pageTitle = pageTitle %>
+
+<!--Head-->
+<% include ../partials/head %>
+<!--Head Ends-->
+
+<!--Header-->
+<% include ../partials/header %>
+<!--Header Ends-->
+
+<div class="content-wrapper">
+    
+        <% if(typeof pageNotification != 'undefined'){ %>
+    
+            <% if(pageNotification.type == 'error') { %>
+                <script>$(document).ready(function () {new PNotify({title: 'Failed',text: '<%=pageNotification.message%>',type: 'error'});});</script>
+            <% } %>
+
+            <% if (pageNotification.type == 'success') {%>
+                <script>$(document).ready(function () {new PNotify({title: 'Success',text: '<%=pageNotification.message%>',type: 'success'});});</script>
+                <!-- <script>alert("added");</script> -->
+                <% } %> 
+        <% }  %>
+
+    <% if(pageType == 'add'){ %>
+        <div class="card">
+            <div class="card-body">
+                <div class="card-title">Add User</div>
+                <div class="row">
+                    <form method="post" action="" class="width-100">
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <div class="form-group">
+                                <label>User Name:</label>
+                                <input required type="text" value="<% if(typeof pageUser != 'undefined') {%><%=pageUser.name%><% } %>" name="user_name" placeholder="Enter user name.." class="form-control">
+                                <% if(typeof errors != 'undefined' && typeof errors.name != 'undefined'){%>
+                                    <span class="error"><%= errors.name %></span>
+                                <%}%>
+
+                            </div>
+                            <div class="form-group">
+                                <label>User Email:</label>
+                                <input required type="email" value="<% if(typeof pageUser != 'undefined') {%><%=pageUser.email%><% } %>" name="user_email" placeholder="Enter user email.." class="form-control">
+                                <% if(typeof errors != 'undefined' && typeof errors.email != 'undefined'){%>
+                                    <span class="error"><%= errors.email %></span>
+                                <%}else if(typeof errors != 'undefined' && typeof errors.errCode != 'undefined'){%>
+                                    <span class="error">Email already exist.</span>
+                                <%}%>
+                            </div>
+                            <div class="form-group">
+                                <label>User Password:</label>
+                                <input required type="password" name="user_password" placeholder="Enter user password.." class="form-control">
+                                <% if(typeof errors != 'undefined' && typeof errors.password != 'undefined'){%>
+                                    <span class="error"><%= errors.password %></span>
+                                <%}%>
+                            </div>
+                            <div class="form-group">
+                                <label>User Role:</label>
+                                <select required name="user_role" class="form-control">
+                                    <option value="">Select User Role</option>
+                                    <option <% if(typeof pageUser != 'undefined' && pageUser.role == 'General') {%> <%- "selected" %> <% } %> value="General" >General</option>
+                                    <option <% if(typeof pageUser != 'undefined' && pageUser.role == 'Admin') {%> <%- "selected" %> <% } %> value="Admin" >Admin</option>
+                                </select>
+                                <% if(typeof errors != 'undefined' && typeof errors.role != 'undefined'){%>
+                                    <span class="error"><%= errors.role %></span>
+                                <%}%>
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </div>
+                        </div>
+                    </form>
+                    </div>
+            </div>
+        </div>
+     
+        <%} else if(pageType == 'edit'){ %>
+            <div class="card">
+                <div class="card-body">
+                    <div class="card-title">Edit Project</div>
+                    <div class="row">
+                        <form method="post" action="" class="width-100">
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                    <input value="<% if(typeof pageUser != 'undefined') {%><%=pageUser._id%><% } %>" type="text" name="user_id" class="hidden">
+                                <div class="form-group">
+                                    <label>User Name:</label>
+                                    <input required value="<% if(typeof pageUser != 'undefined') {%><%=pageUser.name%><% } %>" type="text" name="user_name" placeholder="Enter user name.." class="form-control">
+                                    <% if(typeof errors != 'undefined' && typeof errors.name != 'undefined'){%>
+                                        <span class="error"><%= errors.name %></span>
+                                    <%}%>
+                                </div>
+                                <div class="form-group">
+                                    <label>User Email:</label>
+                                    <input required value="<% if(typeof pageUser != 'undefined') {%><%=pageUser.email%><% } %>" type="email" name="user_email" placeholder="Enter user email.." class="form-control">
+                                    <% if(typeof errors != 'undefined' && typeof errors.email != 'undefined'){%>
+                                        <span class="error"><%= errors.email %></span>
+                                    <%}else if(typeof errors != 'undefined' && typeof errors.errCode != 'undefined'){%>
+                                        <span class="error">Email already exist.</span>
+                                    <%}%>
+                                </div>
+                                <!-- <div class="form-group">
+                                    <label>User Password:</label>
+                                    <input required type="password" name="user_password" placeholder="Enter user password.." class="form-control">
+                                </div> -->
+                                <div class="form-group">
+                                    <label>User Role:</label>
+                                    <select required name="user_role" class="form-control">
+                                        <option value="">Select User Role</option>
+                                        <option <% if(typeof pageUser != 'undefined' && pageUser.role == 'General') {%> <%- "selected" %> <% } %> value="General" >General</option>
+                                        <option <% if(typeof pageUser != 'undefined' && pageUser.role == 'Admin') {%> <%- "selected" %> <% } %> value="Admin" >Admin</option>
+                                    </select>
+                                    <% if(typeof errors != 'undefined' && typeof errors.role != 'undefined'){%>
+                                        <span class="error"><%= errors.role %></span>
+                                    <%}%>
+                                </div>
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-primary">Update</button>
+                                </div>
+                            </div>
+                        </form>
+                        </div>
+                </div>
+            </div>    
+    <% }else{ %>
+        <a href="/user/add" class="btn btn-primary btn-sm cus-mb-10"><i class="ti-plus"></i>&nbsp; New</a>
+        <div class="card">
+            <div class="card-body">
+            <h4 class="card-title">Users</h4>
+            <div class="row">
+              <div class="col-12">
+                <div class="table-responsive">
+                    <table id="user-table" class="table table-condensed">
+                    <thead>
+                        <tr role="row">
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <%if(typeof records != 'undefined' && records.length>0){%>
+                            <!-- <script>alert('record present');</script> -->
+                            <% records.forEach(function(user){%>
+                            <tr>
+                                <td><%=user.name%></td>
+                                <td><%=user.email%></td>
+                                <td><%=user.role%></td>
+                                <td>
+                                    <a href="/user/edit/<%=user._id%>" class="btn btn-success btn-xs cus-btn-xs"><i class="ti-pencil-alt "></i></a>
+                                    <button data-id="<%=user._id%>" class="btn btn-danger btn-xs cus-btn-xs user-delete"><i class="ti-trash"></i></button>
+                                </td> 
+                            </tr>
+                            <%});%>
+                        <%}%>
+                    <!-- <tr>
+                        <td>Wasiq Naqi</td>
+                        <td>wasiqnaqi@gmail.com</td>
+                        <td>Admin</td>
+                        <td>
+                            <a href="/user/edit" class="btn btn-success btn-xs cus-btn-xs"><i class="ti-pencil-alt "></i></a>
+                            <button class="btn btn-danger btn-xs cus-btn-xs"><i class="ti-trash"></i></button>
+                        </td>
+                    </tr> -->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    <% }%>
+</div>
+
+<!--Footer-->
+<% include ../partials/footer %>
+<!--Footer Ends-->

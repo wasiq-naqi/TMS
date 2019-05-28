@@ -1,0 +1,213 @@
+<% var pageType = pageType %>
+<% var pageTitle = pageTitle %>
+
+<!--Head-->
+<% include ../partials/head %>
+<!--Head Ends-->
+
+<!--Header-->
+<% include ../partials/header %>
+<!--Header Ends-->
+
+<div class="content-wrapper">
+
+        <% if(typeof pageNotification != 'undefined'){ %>
+    
+            <% if(pageNotification.type == 'error') { %>
+                <script>$(document).ready(function () {new PNotify({title: 'Failed',text: '<%=pageNotification.message%>',type: 'error'});});</script>
+            <% } %>
+
+            <% if (pageNotification.type == 'success') {%>
+                <script>$(document).ready(function () {new PNotify({title: 'Success',text: '<%=pageNotification.message%>',type: 'success'});});</script>
+                <!-- <script>alert("added");</script> -->
+                <% } %> 
+        <% }  %>
+        
+    <% if(pageType == 'add'){ %>
+        <div class="card">
+            <div class="card-body">
+                <div class="card-title">Add Task</div>
+                <div class="row">
+                    <form method="post" action="" class="width-100">
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <div class="form-group">
+                                <label>Project Name:</label>
+                                <input type="text" name="task_project_name" class="hidden get-project">
+                                <select required class="form-control set-project selectSearch" name="task_project">
+                                    <option value="">Select Project</option>
+                                    <%if(typeof pageProject != 'undefined' && pageProject.length>0){%>
+                                        <% pageProject.forEach(function(project){%>
+                                            <% if (typeof pageTask != 'undefined' && pageTask == project._id){%>
+                                                <option selected value="<%= project._id %>"><%=project.name%></option>
+                                                <%}else{%>
+                                                <option value="<%= project._id %>"><%=project.name%></option>
+                                            <%}%>
+                                            
+                                        <%});%>
+                                    <%}%>
+                                </select>
+                                <% if(typeof errors != 'undefined' && typeof errors.project != 'undefined'){%>
+                                    <span class="error"><%= errors.project %></span>
+                                <%}%>
+                            </div>
+                            <div class="form-group">
+                                <label>Task Details:</label>
+                                <textarea required rows="5" name="task_details" placeholder="Enter task details.." class="form-control"><% if(typeof pageTask != 'undefined') {%><%=pageTask.detail%><% } %></textarea>
+                                <% if(typeof errors != 'undefined' && typeof errors.detail != 'undefined'){%>
+                                    <span class="error"><%= errors.detail %></span>
+                                <%}%>
+                            </div>
+                            <div class="form-group">
+                                <label>Task Date:</label>
+                                <input required value="<% if(typeof pageTask != 'undefined') {%><%=pageTask.date%><% } %>" type="date" class="form-control" name="task_date">
+                                <% if(typeof errors != 'undefined' && typeof errors.date != 'undefined'){%>
+                                    <span class="error"><%= errors.date %></span>
+                                <%}%>
+                            </div>
+                            <div class="form-group">
+                                <label>Hours Taken:</label>
+                                <!-- <input required type="time" class="form-control" name="task_time"> -->
+                                <select required class="form-control" name="task_time">
+                                        <option value="">Select Hours</option>
+                                    <%for(i=1;i<=20;i++){%>
+                                        <% if(typeof errors != 'undefined' && i == pageTask.time){%>
+                                            <option selected value="<%=i%>"><%=i%></option>
+                                        <%}else {%>
+                                            <option value="<%=i%>"><%=i%></option>
+                                        <%}%>
+                                        
+                                    <%}%>
+                                </select>
+                                <% if(typeof errors != 'undefined' && typeof errors.time != 'undefined'){%>
+                                    <span class="error"><%= errors.time %></span>
+                                <%}%>
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </div>
+                        </div>
+                    </form>
+                    </div>
+            </div>
+        </div>
+     
+        <%} else if(pageType == 'edit'){ %>
+            <div class="card">
+                <div class="card-body">
+                    <div class="card-title">Edit Task</div>
+                    <div class="row">
+                        <form method="post" action="" class="width-100">
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                    <input value="<% if(typeof pageTask != 'undefined') {%><%=pageTask._id%><% } %>" type="text" name="task_id" class="hidden">
+                                <div class="form-group">
+                                    <label>Project Name:</label>
+                                    <input type="text" value="<%= pageTask.project.projectName%>" readonly class="form-control">
+                                    <!-- <select required class="form-control" name="task_project">
+                                            <%if(typeof pageProject != 'undefined' && pageProject.length>0){%>
+                                                <% pageProject.forEach(function(project){%>
+                                                    <% if (typeof pageTask != 'undefined' && project._id == pageTask.name){%>
+                                                        <option selected value="<%= project._id %>"><%=project.name%></option>
+                                                        <%}else{%>
+                                                        <option value="<%= project._id %>"><%=project.name%></option>
+                                                    <%}%>
+                                                    
+                                                <%});%>
+                                            <%}%>
+                                    </select> -->
+                                </div>
+                                <div class="form-group">
+                                    <label>Task Details:</label>
+                                    <textarea required rows="5" name="task_details" placeholder="Enter task details.." class="form-control"><% if(typeof pageTask != 'undefined') {%><%=pageTask.detail%><% } %></textarea>
+                                    <% if(typeof errors != 'undefined' && typeof errors.detail != 'undefined'){%>
+                                        <span class="error"><%= errors.detail %></span>
+                                    <%}%>
+                                </div>
+                                <div class="form-group">
+                                    <label>Task Date:</label>
+                                    <input required value="<% if(typeof pageTask != 'undefined') {%><%=pageTask.date%><% } %>" type="date" class="form-control" name="task_date">
+                                    <% if(typeof errors != 'undefined' && typeof errors.date != 'undefined'){%>
+                                        <span class="error"><%= errors.date %></span>
+                                    <%}%>
+                                </div>
+                                <div class="form-group">
+                                    <label>Hours Taken:</label>
+                                    <!-- <input  required value="<% if(typeof pageTask != 'undefined') {%><%=pageTask.time%><% } %>" type="time" class="form-control" name="task_time"> -->
+                                    <select required class="form-control" name="task_time">
+                                        <option value="">Select Hours</option>
+                                            <%for(i=1;i<=20;i++){%>
+                                                <option <%if(pageTask.time == i){%>selected<%}%> value="<%=i%>"><%=i%></option>
+                                            <%}%>
+                                    </select>
+                                    <% if(typeof errors != 'undefined' && typeof errors.time != 'undefined'){%>
+                                        <span class="error"><%= errors.time %></span>
+                                    <%}%>
+                                </div>
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-primary">Update</button>
+                                </div>
+                            </div>
+                        </form>
+                        </div>
+                </div>
+            </div>    
+    <% }else{ %>
+        <a href="/task/add" class="btn btn-primary btn-sm cus-mb-10"><i class="ti-plus"></i>&nbsp; New</a>
+        <div class="card">
+            <div class="card-body">
+            <h4 class="card-title">Tasks</h4>
+            <div class="row">
+              <div class="col-12">
+                <div class="table-responsive">
+                    <table id="task-table" class="table table-condensed">
+                    <thead>
+                        <tr role="row">
+                            <th>Project Name</th>
+                            <th>Task Detail</th>
+                            <th>Date</th>
+                            <th>Hours</th>
+                            <th>User</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                            <%if(typeof pageTasks != 'undefined' && pageTasks.length>0){%>
+                                <!-- <script>alert('record present');</script> -->
+                                <% pageTasks.forEach(function(task){%>
+                                <tr>
+                                    <td><%=task.project.projectName%></td>
+                                    <td><%=task.detail.substring(0, 25)+"...";%></td>
+                                    
+                                    <td><%=task.date%></td>
+                                    <td><%=task.time%></td>
+                                    <td><%=task.createdBy.ownerName %></td>
+                                    <td>
+                                        <a href="/task/edit/<%=task._id%>" class="btn btn-success btn-xs cus-btn-xs"><i class="ti-pencil-alt "></i></a>
+                                        <button data-id="<%=task._id%>" class="btn btn-danger btn-xs cus-btn-xs task-delete"><i class="ti-trash"></i></button>
+                                    </td> 
+                                </tr>
+                                <%});%>
+                            <%}%>
+                    <!-- <tr>
+                        <td>Project 1</td>
+                        <td>This is details about Task</td>
+                        <td>May 5, 2019</td>
+                        <td>2 Hours</td>
+                        <td>Wasiq Naqi</td>
+                        <td>
+                            <a href="/project/edit" class="btn btn-success btn-xs cus-btn-xs"><i class="ti-pencil-alt "></i></a>
+                            <button class="btn btn-danger btn-xs cus-btn-xs"><i class="ti-trash"></i></button>
+                        </td>
+                    </tr> -->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    <% }%>
+</div>
+
+<!--Footer-->
+<% include ../partials/footer %>
+<!--Footer Ends-->
