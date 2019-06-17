@@ -8,6 +8,7 @@ const mongoose = require('mongoose');
 const redirectIfAuth = require('./middleware/redirectIfAuth');
 const Auth = require('./middleware/authUser');
 const AuthRole = require('./middleware/authRole');
+const MEH = require('./middleware/mongooseErrorHandler');
 
 //Configuration
 PORT = 80;
@@ -23,6 +24,7 @@ const projects = require('./routes/projects');
 const users = require('./routes/users');
 const tasks = require('./routes/tasks');
 const login = require('./routes/login');
+const recover = require('./routes/recover');
 
 //Middleware
 app.use(expressSession({
@@ -31,9 +33,12 @@ app.use(expressSession({
     saveUninitialized: true,
 }));
 app.use('/project', Auth, AuthRole, projects);
-app.use('/user', Auth, AuthRole, users);
+app.use('/user', Auth, users);
+//# Use This when run app for first time
+//app.use('/user', users);
 app.use('/task', Auth,  tasks);
 app.use('/login', redirectIfAuth , login);
+app.use('/recover', redirectIfAuth, recover);
 
 app.use(express.static('public'));
 app.set('view engine', 'ejs');
@@ -46,7 +51,7 @@ app.get('/',  (req, res) => {
     // console.log(req.session);
     app.locals.role = req.session.UserRole;
     if(req.session.UserRole == 'Admin'){
-        res.redirect('/project');
+        res.redirect('/task');
     }else{
         res.redirect('/task');
     }
@@ -63,7 +68,8 @@ app.get('/logout', (req, res) => {
 app.get('*', function(req, res){
     let data = {
         "pageTitle" : "Page Not Found",
-        "pageType" : "404"
+        "pageType" : "404",
+        "message" : "The page you’re looking for was not found."
     }; 
     res.status(404).render('./pages/404', data);
   });

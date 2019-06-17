@@ -9,7 +9,7 @@ const projectSchema = new mongoose.Schema({
     name : { type :String , required : [true, "Project name is required"]},
     detail : { type :String , required : [true, "Project details are required"]},
     createdAt : { type : Date, default : Date.now },
-    status : {type : Boolean, default : true},
+    status : {type : String, required :[true, "Project status is required"]},
     createdBy : ownerSchema
 });
 

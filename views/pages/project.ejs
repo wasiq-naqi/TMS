@@ -83,19 +83,22 @@
                 </div>
             </div>    
     <% }else{ %>
-        <a href="/project/add" class="btn btn-primary btn-sm cus-mb-10"><i class="ti-plus"></i>&nbsp; New</a>
+        <!-- <a href="/project/add" class="btn btn-primary btn-sm cus-mb-10"><i class="ti-plus"></i>&nbsp; New</a> -->
+        <button type="button" class="btn btn-primary btn-sm cus-mb-10 addNewProject" data-toggle="modal" data-target="addModal"><i class="ti-plus"></i>&nbsp; New</button>
         <div class="card">
             <div class="card-body">
             <h4 class="card-title">Projects</h4>
             <div class="row">
               <div class="col-12">
                 <div class="table-responsive">
-                    <table id="project-table" class="table table-condensed">
+                    <table id="project-table"  class="table table-condensed">
                     <thead>
                         <tr role="row">
                             <th>Project Name</th>
                             <th>Project Detail</th>
+                            <th>Project Status</th>
                             <th>Created By</th>
+                            <th>Date</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -103,12 +106,20 @@
                         <%if(typeof records != 'undefined' && records.length>0){%>
                             <!-- <script>alert('record present');</script> -->
                             <% records.forEach(function(project){%>
+                                <% var dt = new Date(project.createdAt); %>
+                               <% var date = dt.getFullYear() + "/" + (dt.getMonth() + 1) + "/" + dt.getDate(); %>
                             <tr>
-                                <td><%=project.name%></td>
-                                <td><%=project.detail.substring(0, 25)+"...";%></td>
+                                <td><a class="text-primary project-edit" data-id="<%=project._id%>"><%=project.name%></a></td>
+                                <% if(project.detail.length > 80){%>
+                                <td><%=project.detail.substring(0, 80)+"...";%></td>
+                                <%} else {%>
+                                    <td><%=project.detail%></td>
+                                <% } %>
+                                <td><%=project.status%></td>
                                 <td><%=project.createdBy.ownerName%></td>
+                                <td><%=date%></td>
                                 <td>
-                                    <a href="/project/edit/<%=project._id%>" class="btn btn-success btn-xs cus-btn-xs"><i class="ti-pencil-alt "></i></a>
+                                    <!-- <a href="/project/edit/<%=project._id%>" class="btn btn-success btn-xs cus-btn-xs"><i class="ti-pencil-alt "></i></a> -->
                                     <button data-id="<%=project._id%>" class="btn btn-danger btn-xs cus-btn-xs project-delete"><i class="ti-trash"></i></button>
                                 </td> 
                             </tr>
@@ -130,8 +141,100 @@
           </div>
         </div>
     <% }%>
+    
 </div>
+<form method="POST" id="Form-AddProject">
+    <!-- Full Height Modal Right -->
+    <div class="modal fade right" id="addProjectModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+    aria-hidden="true">
 
+    <!-- Add class .modal-full-height and then add class .modal-right (or other classes from list above) to set a position to the modal -->
+    <div class="modal-dialog modal-full-height modal-right" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+        <h4 class="modal-title w-100" id="myModalLabel">Add New Project</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        </div>
+            <div class="modal-body">
+            <div class="row">
+                <div class="col-md-12 col-sm-12">
+                    <div class="form-group">
+                            <label class="font-weight-bold text-grey">Name:</label>
+                            <input required type="text" name="project_name" class="form-control" placeholder="Enter project name..">
+                    </div>
+                    <div class="form-group">
+                            <label class="font-weight-bold text-grey">Status:</label>
+                            <select required class="form-control" name="project_status">
+                                <option value="">Select project status</option>
+                                <option value="Active">Active</option>
+                                <option value="Inactive">Inactive</option>
+                            </select>
+                    </div>
+                    <div class="form-group">
+                            <label class="font-weight-bold text-grey" >Description :</label>
+                            <textarea required name="project_description" rows="5" class="form-control" placeholder="Enter project description.."></textarea>
+                    </div>
+                </div>
+            </div>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+        
+    </div>
+    </div>
+    </div>
+</form>
+<form  id="Form-EditProject">
+    <!-- Full Height Modal Right -->
+    <div class="modal fade right" id="Modal-EditProject" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+    aria-hidden="true">
+
+    <!-- Add class .modal-full-height and then add class .modal-right (or other classes from list above) to set a position to the modal -->
+    <div class="modal-dialog modal-full-height modal-right" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+        <h4 class="modal-title w-100" id="myModalLabel">Edit Project</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        </div>
+            <div class="modal-body">
+            <div class="row">
+                <div class="col-md-12 col-sm-12">
+                    <div class="form-group">
+                            <label class="font-weight-bold text-grey">Name:</label>
+                            <input readonly type="text" name="project_id" class="form-control hidden" placeholder="Enter project name..">
+                            <input readonly type="text" name="project_name" class="form-control" placeholder="Enter project name..">
+                    </div>
+                    <div class="form-group">
+                            <label class="font-weight-bold text-grey">Status:</label>
+                            <select required class="form-control" name="project_status">
+                                <option value="">Select project status</option>
+                                <option value="Active">Active</option>
+                                <option value="Inactive">Inactive</option>
+                            </select>
+                    </div>
+                    <div class="form-group">
+                            <label class="font-weight-bold text-grey" >Description :</label>
+                            <textarea required name="project_description" rows="5" class="form-control" placeholder="Enter project description.."></textarea>
+                    </div>
+                </div>
+            </div>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Update</button>
+            </div>
+        
+    </div>
+    </div>
+    </div>
+</form>
+<!-- Full Height Modal Right -->
 <!--Footer-->
 <% include ../partials/footer %>
 <!--Footer Ends-->

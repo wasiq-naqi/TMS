@@ -12,6 +12,7 @@ const userSchema = new mongoose.Schema({
     email : { type : String, required : [true, "Email is required"], unique: [true, "Email already exist."] },
     password : { type : String, required : [true, "Password is required"] },
     role : {type: String, required: [true, "Role is required"] },
+    forget_password_code : {type: String},
     createdAt : { type : Date, default : Date.now },
     createdBy : ownerSchema
 });

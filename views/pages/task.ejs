@@ -23,135 +23,9 @@
                 <% } %> 
         <% }  %>
         
-    <% if(pageType == 'add'){ %>
-        <div class="card">
-            <div class="card-body">
-                <div class="card-title">Add Task</div>
-                <div class="row">
-                    <form method="post" action="" class="width-100">
-                        <div class="col-md-12 col-sm-12 col-xs-12">
-                            <div class="form-group">
-                                <label>Project Name:</label>
-                                <input type="text" name="task_project_name" class="hidden get-project">
-                                <select required class="form-control set-project selectSearch" name="task_project">
-                                    <option value="">Select Project</option>
-                                    <%if(typeof pageProject != 'undefined' && pageProject.length>0){%>
-                                        <% pageProject.forEach(function(project){%>
-                                            <% if (typeof pageTask != 'undefined' && pageTask == project._id){%>
-                                                <option selected value="<%= project._id %>"><%=project.name%></option>
-                                                <%}else{%>
-                                                <option value="<%= project._id %>"><%=project.name%></option>
-                                            <%}%>
-                                            
-                                        <%});%>
-                                    <%}%>
-                                </select>
-                                <% if(typeof errors != 'undefined' && typeof errors.project != 'undefined'){%>
-                                    <span class="error"><%= errors.project %></span>
-                                <%}%>
-                            </div>
-                            <div class="form-group">
-                                <label>Task Details:</label>
-                                <textarea required rows="5" name="task_details" placeholder="Enter task details.." class="form-control"><% if(typeof pageTask != 'undefined') {%><%=pageTask.detail%><% } %></textarea>
-                                <% if(typeof errors != 'undefined' && typeof errors.detail != 'undefined'){%>
-                                    <span class="error"><%= errors.detail %></span>
-                                <%}%>
-                            </div>
-                            <div class="form-group">
-                                <label>Task Date:</label>
-                                <input required value="<% if(typeof pageTask != 'undefined') {%><%=pageTask.date%><% } %>" type="date" class="form-control" name="task_date">
-                                <% if(typeof errors != 'undefined' && typeof errors.date != 'undefined'){%>
-                                    <span class="error"><%= errors.date %></span>
-                                <%}%>
-                            </div>
-                            <div class="form-group">
-                                <label>Hours Taken:</label>
-                                <!-- <input required type="time" class="form-control" name="task_time"> -->
-                                <select required class="form-control" name="task_time">
-                                        <option value="">Select Hours</option>
-                                    <%for(i=1;i<=20;i++){%>
-                                        <% if(typeof errors != 'undefined' && i == pageTask.time){%>
-                                            <option selected value="<%=i%>"><%=i%></option>
-                                        <%}else {%>
-                                            <option value="<%=i%>"><%=i%></option>
-                                        <%}%>
-                                        
-                                    <%}%>
-                                </select>
-                                <% if(typeof errors != 'undefined' && typeof errors.time != 'undefined'){%>
-                                    <span class="error"><%= errors.time %></span>
-                                <%}%>
-                            </div>
-                            <div class="form-group">
-                                <button type="submit" class="btn btn-primary">Submit</button>
-                            </div>
-                        </div>
-                    </form>
-                    </div>
-            </div>
-        </div>
-     
-        <%} else if(pageType == 'edit'){ %>
-            <div class="card">
-                <div class="card-body">
-                    <div class="card-title">Edit Task</div>
-                    <div class="row">
-                        <form method="post" action="" class="width-100">
-                            <div class="col-md-12 col-sm-12 col-xs-12">
-                                    <input value="<% if(typeof pageTask != 'undefined') {%><%=pageTask._id%><% } %>" type="text" name="task_id" class="hidden">
-                                <div class="form-group">
-                                    <label>Project Name:</label>
-                                    <input type="text" value="<%= pageTask.project.projectName%>" readonly class="form-control">
-                                    <!-- <select required class="form-control" name="task_project">
-                                            <%if(typeof pageProject != 'undefined' && pageProject.length>0){%>
-                                                <% pageProject.forEach(function(project){%>
-                                                    <% if (typeof pageTask != 'undefined' && project._id == pageTask.name){%>
-                                                        <option selected value="<%= project._id %>"><%=project.name%></option>
-                                                        <%}else{%>
-                                                        <option value="<%= project._id %>"><%=project.name%></option>
-                                                    <%}%>
-                                                    
-                                                <%});%>
-                                            <%}%>
-                                    </select> -->
-                                </div>
-                                <div class="form-group">
-                                    <label>Task Details:</label>
-                                    <textarea required rows="5" name="task_details" placeholder="Enter task details.." class="form-control"><% if(typeof pageTask != 'undefined') {%><%=pageTask.detail%><% } %></textarea>
-                                    <% if(typeof errors != 'undefined' && typeof errors.detail != 'undefined'){%>
-                                        <span class="error"><%= errors.detail %></span>
-                                    <%}%>
-                                </div>
-                                <div class="form-group">
-                                    <label>Task Date:</label>
-                                    <input required value="<% if(typeof pageTask != 'undefined') {%><%=pageTask.date%><% } %>" type="date" class="form-control" name="task_date">
-                                    <% if(typeof errors != 'undefined' && typeof errors.date != 'undefined'){%>
-                                        <span class="error"><%= errors.date %></span>
-                                    <%}%>
-                                </div>
-                                <div class="form-group">
-                                    <label>Hours Taken:</label>
-                                    <!-- <input  required value="<% if(typeof pageTask != 'undefined') {%><%=pageTask.time%><% } %>" type="time" class="form-control" name="task_time"> -->
-                                    <select required class="form-control" name="task_time">
-                                        <option value="">Select Hours</option>
-                                            <%for(i=1;i<=20;i++){%>
-                                                <option <%if(pageTask.time == i){%>selected<%}%> value="<%=i%>"><%=i%></option>
-                                            <%}%>
-                                    </select>
-                                    <% if(typeof errors != 'undefined' && typeof errors.time != 'undefined'){%>
-                                        <span class="error"><%= errors.time %></span>
-                                    <%}%>
-                                </div>
-                                <div class="form-group">
-                                    <button type="submit" class="btn btn-primary">Update</button>
-                                </div>
-                            </div>
-                        </form>
-                        </div>
-                </div>
-            </div>    
-    <% }else{ %>
-        <a href="/task/add" class="btn btn-primary btn-sm cus-mb-10"><i class="ti-plus"></i>&nbsp; New</a>
+
+        <!-- <a href="/task/add" class="btn btn-primary btn-sm cus-mb-10"><i class="ti-plus"></i>&nbsp; New</a> -->
+        <button type="button" class="btn btn-primary btn-sm cus-mb-10 addNewTask" data-toggle="modal" data-target="addTaskModal"><i class="ti-plus"></i>&nbsp; New</button>
         <div class="card">
             <div class="card-body">
             <h4 class="card-title">Tasks</h4>
@@ -161,12 +35,12 @@
                     <table id="task-table" class="table table-condensed">
                     <thead>
                         <tr role="row">
-                            <th>Project Name</th>
-                            <th>Task Detail</th>
-                            <th>Date</th>
-                            <th>Hours</th>
-                            <th>User</th>
-                            <th>Actions</th>
+                            <th >Project Name</th>
+                            <th >Task Detail</th>
+                            <th >Date</th>
+                            <th >Hours</th>
+                            <th >User</th>
+                            <th >Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -174,14 +48,17 @@
                                 <!-- <script>alert('record present');</script> -->
                                 <% pageTasks.forEach(function(task){%>
                                 <tr>
-                                    <td><%=task.project.projectName%></td>
-                                    <td><%=task.detail.substring(0, 25)+"...";%></td>
-                                    
+                                    <td><a class="text-primary task-edit" data-id="<%=task._id%>"><%=task.project.projectName%></a></td>
+                                    <% var details = task.detail; %>
+                                    <% if(details.length > 50){%>
+                                        <td><%=details.substring(0, 50)+"...";%></td>
+                                    <%}else{%>
+                                        <td><%=details;%></td>
+                                    <%}%>
                                     <td><%=task.date%></td>
                                     <td><%=task.time%></td>
                                     <td><%=task.createdBy.ownerName %></td>
                                     <td>
-                                        <a href="/task/edit/<%=task._id%>" class="btn btn-success btn-xs cus-btn-xs"><i class="ti-pencil-alt "></i></a>
                                         <button data-id="<%=task._id%>" class="btn btn-danger btn-xs cus-btn-xs task-delete"><i class="ti-trash"></i></button>
                                     </td> 
                                 </tr>
@@ -205,9 +82,110 @@
             </div>
           </div>
         </div>
-    <% }%>
+ 
 </div>
+<form method="POST" id="Form-AddTask">
+    <!-- Full Height Modal Right -->
+    <div class="modal fade right" id="addTaskModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+    aria-hidden="true">
 
+    <!-- Add class .modal-full-height and then add class .modal-right (or other classes from list above) to set a position to the modal -->
+    <div class="modal-dialog modal-full-height modal-right" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+        <h4 class="modal-title w-100" id="myModalLabel">Add New Task</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        </div>
+            <div class="modal-body">
+            <div class="row">
+                <div class="col-md-12 col-sm-12">
+                    <div class="form-group">
+                            <label class="font-weight-bold text-grey">Project:</label>
+                            <select required class="form-control" name="task_project">
+                            </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="font-weight-bold text-grey" >Description :</label>
+                        <textarea required name="task_description" rows="5" class="form-control" placeholder="Enter project description.."></textarea>
+                    </div>
+                    <div class="form-group">
+                            <label class="font-weight-bold text-grey">Date:</label>
+                            <input required type="date" name="task_date" class="form-control" placeholder="">
+                    </div>
+                    <div class="form-group">
+                        <label>Hours Taken:</label>
+                        <select required class="form-control" name="task_time">
+                                <option value="">Select Hours</option>
+                            <%for(i=1;i<=20;i++){%>
+                                    <option value="<%=i%>"><%=i%></option>
+                            <%}%>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+        
+    </div>
+    </div>
+    </div>
+</form>
+<form method="POST" id="Form-EditTask">
+    <!-- Full Height Modal Right -->
+    <div class="modal fade right" id="editTaskModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+    aria-hidden="true">
+
+    <!-- Add class .modal-full-height and then add class .modal-right (or other classes from list above) to set a position to the modal -->
+    <div class="modal-dialog modal-full-height modal-right" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+        <h4 class="modal-title w-100" id="myModalLabel">Edit Task</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        </div>
+            <div class="modal-body">
+            <div class="row">
+                <div class="col-md-12 col-sm-12">
+                    <div class="form-group">
+                            <label class="font-weight-bold text-grey">Project:</label>
+                            <input readonly type="text" name="task_id" class="form-control hidden">
+                            <input required readonly type="text" name="task_project" class="form-control" placeholder="Project Name">
+                    </div>
+                    <div class="form-group">
+                        <label class="font-weight-bold text-grey" >Description :</label>
+                        <textarea required name="task_description" rows="5" class="form-control" placeholder="Enter project description.."></textarea>
+                    </div>
+                    <div class="form-group">
+                            <label class="font-weight-bold text-grey">Date:</label>
+                            <input required type="date" name="task_date" class="form-control" placeholder="">
+                    </div>
+                    <div class="form-group">
+                        <label>Hours Taken:</label>
+                        <select required class="form-control" name="task_time">
+                                <option value="">Select Hours</option>
+                            <%for(i=1;i<=20;i++){%>
+                                    <option value="<%=i%>"><%=i%></option>
+                            <%}%>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+        
+    </div>
+    </div>
+    </div>
+</form>
 <!--Footer-->
 <% include ../partials/footer %>
 <!--Footer Ends-->

@@ -8,14 +8,22 @@ router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({ extended : true }));
 
 router.get('/', (req, res) => {
+    var login_message = '';
+    
+    if(req.query.role == 'password_changed'){
+        login_message = "Success! Signin with your new password"
+    }
     let data = {
         "pageTitle" : "Login",
-        "pageType" : "login"
+        "pageType" : "login",
+        "notF" : "success",
+        "login_message" : login_message
     }; 
     res.render('./pages/login', data);
 });
 
 router.post('/', (req, res) => {
+    var login_message = '';
     let login_email = req.body.login_email;
     let login_password = req.body.login_password;
     User.findOne({email: login_email})
@@ -32,7 +40,8 @@ router.post('/', (req, res) => {
                 let data = {
                     "pageTitle" : "Login",
                     "pageType" : "login",
-                    "user_email": login_email
+                    "user_email": login_email,
+                    "login_message" : login_message
                 }; 
                 res.render('./pages/login', data);
             }
@@ -43,7 +52,8 @@ router.post('/', (req, res) => {
         let data = {
             "pageTitle" : "Login",
             "pageType" : "login",
-            "user_email": login_email
+            "user_email": login_email,
+            "login_message" : login_message
         }; 
         res.render('./pages/login', data);
     })
