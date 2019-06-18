@@ -18,10 +18,10 @@ router.get('/', (req, res) => {
         // console.log(o_id);
         if(role == 'Admin'){
             tasks = await Task.find()
-            .sort({ _id: -1});
+            .sort({ _id: 1});
         }else{
             tasks = await Task.find({"createdBy.ownerID" : o_id})
-            .sort({ _id: -1});
+            .sort({ _id: 1});
         }
         // console.log(tasks);
             let data = {

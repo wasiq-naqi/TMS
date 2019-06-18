@@ -133,6 +133,7 @@
                     <table id="user-table" class="table table-condensed">
                     <thead>
                         <tr role="row">
+                            <th>Sr</th>
                             <th>Name</th>
                             <th>Email</th>
                             <th>Role</th>
@@ -140,10 +141,12 @@
                         </tr>
                     </thead>
                     <tbody>
+                        <% var counter = 0; %>
                         <%if(typeof records != 'undefined' && records.length>0){%>
                             <!-- <script>alert('record present');</script> -->
                             <% records.forEach(function(user){%>
                             <tr>
+                                <td><%=counter%></td>
                                 <td><a class="text-primary user-edit" data-id="<%=user._id%>"><%=user.name%></a></td>
                                 <td><%=user.email%></td>
                                 <td><%=user.role%></td>
@@ -151,6 +154,7 @@
                                     <button data-id="<%=user._id%>" class="btn btn-danger btn-xs cus-btn-xs user-delete"><i class="ti-trash"></i></button>
                                 </td> 
                             </tr>
+                            <% counter++; %>
                             <%});%>
                         <%}%>
                     <!-- <tr>

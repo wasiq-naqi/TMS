@@ -10,21 +10,37 @@ $(document).ready(function () {
 
     // var DatatableProject = $("#project-table").DataTable({});
     var DatatableProject = $("#project-table").DataTable({
-       "aaSorting": [],
+        "order": [[ 0, "desc" ]],
+		"columnDefs": [
+            {
+                "targets": [ 0 ],
+                "visible": false,
+                "searchable": false
+            }
+			],
+       responsive: true
     });
-    $("#user-table").DataTable({
-        "aaSorting": []
+    var DatatableUser = $("#user-table").DataTable({
+        "order": [[ 0, "desc" ]],
+		"columnDefs": [
+            {
+                "targets": [ 0 ],
+                "visible": false,
+                "searchable": false
+            }
+			],
+        responsive: true
     });
-    $("#task-table").DataTable({
-        "aaSorting": [],
-        "columns": [
-            { "width": "20%" },
-            { "width": "40%" },
-            { "width": "10%" },
-            { "width": "10%" },
-            { "width": "10%" },
-            { "width": "10%" },
-          ]
+    var DatatableTask = $("#task-table").DataTable({
+        "order": [[ 0, "desc" ]],
+		"columnDefs": [
+            {
+                "targets": [ 0 ],
+                "visible": false,
+                "searchable": false
+            }
+			],
+        responsive: true
     });
 
     $('.set-project').change(function(){
@@ -68,19 +84,33 @@ $(document).ready(function () {
                     var detail = '';
                     if(detailChk.length > 50){detail = info.data.detail.substring(0, 50)+"...";}else{detail = info.data.detail;}
                     
-                    $('#project-table').prepend('<tr>'+
-                    '<td><a class="text-primary project-edit" data-id="' + info.data._id + '">' + info.data.name + '</a></td>'+
-                    '<td>' + detail + '</td>'+
-                    '<td>' + info.data.status + '</td>'+
-                    '<td>' + info.data.createdBy.ownerName + '</td>'+
-                    '<td>' + date + '</td>'+
-                    '<td><button data-id="' + info.data._id + '" class="btn btn-danger btn-xs cus-btn-xs project-delete"><i class="ti-trash"></i></button></td>'+
-                    '</tr>').fadeIn('slow');
-                    
-                    // DatatableProject.draw('false');
-                    // alert("Before");
-                    // DatatableProject.page( 'first' ).draw( false );
-                    // alert("After");
+                    // $('#project-table').prepend('<tr>'+
+                    // '<td><a class="text-primary project-edit" data-id="' + info.data._id + '">' + info.data.name + '</a></td>'+
+                    // '<td>' + detail + '</td>'+
+                    // '<td>' + info.data.status + '</td>'+
+                    // '<td>' + info.data.createdBy.ownerName + '</td>'+
+                    // '<td>' + date + '</td>'+
+                    // '<td><button data-id="' + info.data._id + '" class="btn btn-danger btn-xs cus-btn-xs project-delete"><i class="ti-trash"></i></button></td>'+
+                    // '</tr>').hide().fadeIn('slow');
+
+                    var col_sr;
+                    var col = DatatableProject.row(':first').data();
+                    // alert(col);
+                    if(typeof col == 'undefined'){
+                        col_sr = 0;
+                    }else{
+                        col_sr = col[0];
+                    }
+		            var col_1 = parseInt(col_sr) + 1;
+                    var col_2 = '<a class="text-primary project-edit" data-id="' + info.data._id + '">' + info.data.name + '</a>';
+                    var col_3 =  detail;
+                    var col_4 =  info.data.status;
+                    var col_5 = info.data.createdBy.ownerName;
+                    var col_6 = date;
+                    var col_7 = '<button data-id="' + info.data._id + '" class="btn btn-danger btn-xs cus-btn-xs project-delete"><i class="ti-trash"></i></button>';
+
+                    DatatableProject.row.add([ col_1,col_2,col_3,col_4,col_5,col_6, col_7 ]).draw("true");
+
                     $('#Form-AddProject')[0].reset();
                 
                 } else {
@@ -248,14 +278,23 @@ $(document).ready(function () {
                     var detailChk = info.data.detail;
                     var detail = '';
                     if(detailChk.length > 50){detail = info.data.detail.substring(0, 50)+"...";}else{detail = info.data.detail;}
-                    $('#task-table').prepend('<tr>'+
-                    '<td><a class="text-primary task-edit" data-id="' + info.data._id + '">' + info.data.project.projectName + '</a></td>'+
-                    '<td>' + detail + '</td>'+
-                    '<td>' + info.data.date + '</td>'+
-                    '<td>' + info.data.time + '</td>'+
-                    '<td>' + info.data.createdBy.ownerName + '</td>'+
-                    '<td><button data-id="' + info.data._id + '" class="btn btn-danger btn-xs cus-btn-xs task-delete"><i class="ti-trash"></i></button></td>'+
-                    '</tr>');
+
+                    var col_sr;
+                    var col = DatatableTask.row(':first').data();
+                    if(typeof col == 'undefined'){
+                        col_sr = 0;
+                    }else{
+                        col_sr = col[0];
+                    }
+		            var col_1 = parseInt(col_sr) + 1;
+                    var col_2 = '<a class="text-primary task-edit" data-id="' + info.data._id + '">' + info.data.project.projectName + '</a>';
+                    var col_3 =  detail;
+                    var col_4 =  info.data.date;
+                    var col_5 = info.data.time;
+                    var col_6 = info.data.createdBy.ownerName;
+                    var col_7 = '<button data-id="' + info.data._id + '" class="btn btn-danger btn-xs cus-btn-xs task-delete"><i class="ti-trash"></i></button>';
+
+                    DatatableTask.row.add([ col_1,col_2,col_3,col_4,col_5,col_6,col_7 ]).draw("true");
 
                     $('#Form-AddTask')[0].reset();
                 
@@ -403,14 +442,22 @@ $(document).ready(function () {
             success: function(info) {
                 // alert(info.data.code);
                 if(info.status == '200'){
-
-                    $('#user-table').prepend('<tr>'+
-                    '<td><a class="text-primary user-edit" data-id="' + info.data._id + '">' + info.data.name + '</a></td>'+
-                    '<td>' + info.data.email + '</td>'+
-                    '<td>' + info.data.role + '</td>'+
-                    '<td><button data-id="' + info.data._id + '" class="btn btn-danger btn-xs cus-btn-xs user-delete"><i class="ti-trash"></i></button></td>'+
-                    '</tr>');
                     
+                    var col_sr;
+                    var col = DatatableUser.row(':first').data();
+                    if(typeof col == 'undefined'){
+                        col_sr = 0;
+                    }else{
+                        col_sr = col[0];
+                    }
+		            var col_1 = parseInt(col_sr) + 1;
+                    var col_2 = '<a class="text-primary user-edit" data-id="' + info.data._id + '">' + info.data.name + '</a>';
+                    var col_3 =  info.data.email;
+                    var col_4 =  info.data.role;
+                    var col_5 = '<button data-id="' + info.data._id + '" class="btn btn-danger btn-xs cus-btn-xs user-delete"><i class="ti-trash"></i></button>';
+
+                    DatatableUser.row.add([ col_1,col_2,col_3,col_4,col_5]).draw("true");
+
                     $('#Form-AddUser')[0].reset();
                 
                 }

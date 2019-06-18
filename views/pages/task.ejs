@@ -35,6 +35,7 @@
                     <table id="task-table" class="table table-condensed">
                     <thead>
                         <tr role="row">
+                            <th>Sr</th>
                             <th >Project Name</th>
                             <th >Task Detail</th>
                             <th >Date</th>
@@ -44,10 +45,12 @@
                         </tr>
                     </thead>
                     <tbody>
+                            <% var counter = 0; %>
                             <%if(typeof pageTasks != 'undefined' && pageTasks.length>0){%>
                                 <!-- <script>alert('record present');</script> -->
                                 <% pageTasks.forEach(function(task){%>
                                 <tr>
+                                    <td><%=counter%></td>
                                     <td><a class="text-primary task-edit" data-id="<%=task._id%>"><%=task.project.projectName%></a></td>
                                     <% var details = task.detail; %>
                                     <% if(details.length > 50){%>
@@ -62,6 +65,7 @@
                                         <button data-id="<%=task._id%>" class="btn btn-danger btn-xs cus-btn-xs task-delete"><i class="ti-trash"></i></button>
                                     </td> 
                                 </tr>
+                                <% counter++; %>
                                 <%});%>
                             <%}%>
                     <!-- <tr>

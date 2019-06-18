@@ -1,3 +1,8 @@
+@media (max-width: 480px) {
+    .ui-pnotify-mobile-able.ui-pnotify.stack-modal {
+      margin-left: 0;
+    }
+  }
 .text-grey{
     color: #8d9498;
 }

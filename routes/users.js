@@ -14,7 +14,7 @@ router.get('/', AuthRole, (req, res) => {
     
     async function getUsers(){
         let users = await User.find()
-        .sort({ _id: -1});
+        .sort({ _id: 1});
         // console.log(users);
 
         let data = {

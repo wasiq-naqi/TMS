@@ -93,7 +93,7 @@
                 <div class="table-responsive">
                     <table id="project-table"  class="table table-condensed">
                     <thead>
-                        <tr role="row">
+                        <tr role="row"><th>Sr</th>
                             <th>Project Name</th>
                             <th>Project Detail</th>
                             <th>Project Status</th>
@@ -103,12 +103,14 @@
                         </tr>
                     </thead>
                     <tbody>
+                        <% var counter = 0; %>
                         <%if(typeof records != 'undefined' && records.length>0){%>
                             <!-- <script>alert('record present');</script> -->
                             <% records.forEach(function(project){%>
                                 <% var dt = new Date(project.createdAt); %>
                                <% var date = dt.getFullYear() + "/" + (dt.getMonth() + 1) + "/" + dt.getDate(); %>
                             <tr>
+                                <td><%=counter%></td>
                                 <td><a class="text-primary project-edit" data-id="<%=project._id%>"><%=project.name%></a></td>
                                 <% if(project.detail.length > 80){%>
                                 <td><%=project.detail.substring(0, 80)+"...";%></td>
@@ -123,6 +125,7 @@
                                     <button data-id="<%=project._id%>" class="btn btn-danger btn-xs cus-btn-xs project-delete"><i class="ti-trash"></i></button>
                                 </td> 
                             </tr>
+                            <% counter++; %>
                             <%});%>
                         <%}%>
                     <!-- <tr>

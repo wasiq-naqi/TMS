@@ -10,7 +10,7 @@ router.use(bodyParser.urlencoded({ extended : true }));
 router.get('/', (req, res) => {
     async function getProjects(){
         let projects = await Project.find()
-        .sort({ _id: -1});
+        .sort({ _id: 1});
         // console.log(projects);
 
         let data = {
