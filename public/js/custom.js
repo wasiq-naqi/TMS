@@ -161,9 +161,10 @@ $(document).ready(function () {
                     if(data = true){
                         new PNotify({title: 'Success',text: 'Sucessfully deleted',type: 'success'});
                         // row.parent().parent().remove();
-                        row.parent().parent().fadeOut('slow', function(){
-                            $(this).remove();
-                        });
+                        // row.parent().parent().fadeOut('slow', function(){
+                            
+                        // });
+                        DatatableProject.row(row.closest('tr')).remove().draw();
                     }else{
                         new PNotify({title: 'Failed',text:  'Failed to delete',type: 'error'});
                     }
@@ -407,9 +408,10 @@ $(document).ready(function () {
                     if(data = true){
                         new PNotify({title: 'Success',text: 'Sucessfully deleted',type: 'success'});
                         // row.parent().parent().remove();
-                        row.parent().parent().fadeOut('slow', function(){
-                            $(this).remove();
-                        });
+                        // row.parent().parent().fadeOut('slow', function(){
+                        //     $(this).remove();
+                        // });
+                        DatatableTask.row(row.closest('tr')).remove().draw();
                     }else{
                         new PNotify({title: 'Failed',text:  'Failed to delete',type: 'error'});
                     }
@@ -617,10 +619,7 @@ $(document).ready(function () {
                 success : function(data){
                     if(data = true){
                         new PNotify({title: 'Success',text: 'Sucessfully deleted',type: 'success'});
-                        // row.parent().parent().remove();
-                        row.parent().parent().fadeOut('slow', function(){
-                            $(this).remove();
-                        });
+                        DatatableUser.row(row.closest('tr')).remove().draw();
                     }else{
                         new PNotify({title: 'Failed',text:  'Failed to delete',type: 'error'});
                     }

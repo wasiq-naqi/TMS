@@ -2,6 +2,9 @@
     .ui-pnotify-mobile-able.ui-pnotify.stack-modal {
       margin-left: 0;
     }
+    .dataTables_length{
+        display: none;
+    }
   }
 .text-grey{
     color: #8d9498;
@@ -32,4 +35,8 @@
 }
 .modal .modal-dialog {
     margin-top: 0;
+}
+#project-table,#task-table,#user-table{
+    /* width: auto !important; */
+    width: 100% !important;
 }
