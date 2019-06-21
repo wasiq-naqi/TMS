@@ -7,6 +7,8 @@ $(document).ready(function () {
     if ($(".selectSearch").length) {
         $(".selectSearch").select2();
     }
+  
+    $(".project_users").select2();
 
     // var DatatableProject = $("#project-table").DataTable({});
     var DatatableProject = $("#project-table").DataTable({
@@ -187,8 +189,12 @@ $(document).ready(function () {
             data : {id : id},
             success : function(result){
                 // alert(result.data);
+
                 $("#Form-EditProject [name='project_id']").val(result.data._id);
                 $("#Form-EditProject [name='project_name']").val(result.data.name);
+                $("#Form-EditProject [name='project_users[]']").val(result.data.users);
+                //$("#Form-EditProject [name='project_users[]']").val(['5cfa4e01748a5b18dc8b8e68','5d0b4f936da21b15dc53a01e']);
+                $("#Form-EditProject [name='project_users[]']").trigger('change');
                 $("#Form-EditProject [name='project_description']").val(result.data.detail);
                 $("#Form-EditProject [name='project_status']").val(result.data.status);
                 $('#Modal-EditProject').modal('show');

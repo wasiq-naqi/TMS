@@ -278,7 +278,7 @@ router.delete('/delete', (req, res) => {
 });
 
 router.post('/project', (req, res) => {
-    Project.find({status : "Active"})
+    Project.find({status : "Active", users : req.session.UserID })
     .then((result) =>{
         var records = {
             status : '200',

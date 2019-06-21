@@ -3,12 +3,15 @@ const bodyParser = require('body-parser');
 const request = require('request');
 const router = express.Router();
 const {Project, projectOwner} = require('../models/Project');
+const { User } = require('../models/User');
 
 router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({ extended : true }));
 
 router.get('/', (req, res) => {
     async function getProjects(){
+        let users = await User.find().select({name: 1, email : 1});
+        //console.log(users);
         let projects = await Project.find()
         .sort({ _id: 1});
         // console.log(projects);
@@ -17,6 +20,7 @@ router.get('/', (req, res) => {
             "pageTitle" : "Projects",
             "pageType" : "list",
             "records" : projects,
+            "users" : users,
             "session" : req.session
         };
         res.render('pages/project', data);
@@ -66,11 +70,14 @@ router.post('/add', (req, res) => {
         name : req.body.project_name,
         status : req.body.project_status,
         detail : req.body.project_description,
+        users : req.body.project_users,
         createdBy : new projectOwner({
             ownerID : req.session.UserID,
             ownerName : req.session.UserName
         })
     });
+
+    //console.log(project);
 
     if(req.session.UserRole == 'Admin'){
 
@@ -253,7 +260,8 @@ router.put('/update', (req, res) => {
         result.name = req.body.project_name;
         result.status = req.body.project_status;
         result.detail = req.body.project_description;
-
+        result.users = req.body.project_users;
+        
         result.save()
         .then((result_1) => {
             var record = {

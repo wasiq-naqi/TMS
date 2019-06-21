@@ -2,8 +2,8 @@
 const nodemailer = require("nodemailer");
 const DOMAIN = "localhost";
 const HOST = "smtp.gmail.com";
-const EMAIL = "wasiqnaqi@gmail.com";
-const PASSWORD = "V1i4r6u2s8s";
+const EMAIL = "";
+const PASSWORD = "";
 const PORT = '587';
 
 function sendMail(receiver){
