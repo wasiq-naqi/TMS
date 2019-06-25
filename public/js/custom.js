@@ -112,11 +112,13 @@ $(document).ready(function () {
                     var col_7 = '<button data-id="' + info.data._id + '" class="btn btn-danger btn-xs cus-btn-xs project-delete"><i class="ti-trash"></i></button>';
 
                     DatatableProject.row.add([ col_1,col_2,col_3,col_4,col_5,col_6, col_7 ]).draw("true");
-
+                    new PNotify({title: 'Success',text: 'Project Added',type: 'success'});
+                    $("#Form-AddProject [name='project_users[]']").val(null).trigger('change');
+                    // $('#mySelect2').val(null).trigger('change');
                     $('#Form-AddProject')[0].reset();
                 
                 } else {
-                    alert("Failed to add project");
+                    new PNotify({title: 'Failed',text: 'Failed to add project',type: 'error'});
                 }
                 // alert(JSON.stringify(info));
             }
@@ -229,6 +231,7 @@ $(document).ready(function () {
                     
                     $(row).children(":nth-child(2)").text(detail);
                     $(row).children(":nth-child(3)").text(info.data.status);
+                    new PNotify({title: 'Success',text: 'Sucessfully updated',type: 'success'});
                     // alert("Success");
                     $('#Modal-EditProject').modal('hide');
                 
@@ -302,6 +305,7 @@ $(document).ready(function () {
                     var col_7 = '<button data-id="' + info.data._id + '" class="btn btn-danger btn-xs cus-btn-xs task-delete"><i class="ti-trash"></i></button>';
 
                     DatatableTask.row.add([ col_1,col_2,col_3,col_4,col_5,col_6,col_7 ]).draw("true");
+                    new PNotify({title: 'Success',text: 'Task Added',type: 'success'});
 
                     $('#Form-AddTask')[0].reset();
                 
@@ -359,6 +363,7 @@ $(document).ready(function () {
                     $(row).children(":nth-child(2)").text(detail);
                     $(row).children(":nth-child(3)").text(info.data.date);
                     $(row).children(":nth-child(4)").text(info.data.time);
+                    new PNotify({title: 'Success',text: 'Sucessfully updated',type: 'success'});
                     // alert("Success");
                     $('#editTaskModal').modal('hide');
                 
@@ -465,8 +470,8 @@ $(document).ready(function () {
                     var col_5 = '<button data-id="' + info.data._id + '" class="btn btn-danger btn-xs cus-btn-xs user-delete"><i class="ti-trash"></i></button>';
 
                     DatatableUser.row.add([ col_1,col_2,col_3,col_4,col_5]).draw("true");
-
                     $('#Form-AddUser')[0].reset();
+                    new PNotify({title: 'Success',text: 'User Added',type: 'success'});
                 
                 }
             },
@@ -537,6 +542,7 @@ $(document).ready(function () {
                     $(row).children(":nth-child(1)").html(userName);
                     $(row).children(":nth-child(2)").text(info.data.email);
                     $(row).children(":nth-child(3)").text(info.data.role);
+                    new PNotify({title: 'Success',text: 'Sucessfully updated',type: 'success'});
                     // alert("Success");
                     $('#editUserModal').modal('hide');
                 
@@ -654,7 +660,7 @@ $(document).ready(function () {
             dataType: 'json',
             data:  data,
             success: function(info) {
-                // alert(info.data.message);
+                alert(info.status);
                 if(info.status == '200'){
                     $('#Form-PasswordReset')[0].reset();
                     $("#Form-PasswordReset [name='user_email']").after('<span class="success">' + info.data.message + '</span>');
@@ -663,8 +669,9 @@ $(document).ready(function () {
                 }
             },
             error: function(error){
-                if(error.status == '400'){
-                    $("#Form-PasswordReset [name='user_email']").after('<span class="error">' + error.data.message + '</span>');
+                var res = error.responseJSON;
+                if(res.status == '400'){
+                    $("#Form-PasswordReset [name='user_email']").after('<span class="error">' + res.data.message + '</span>');
                 }
             }
         });

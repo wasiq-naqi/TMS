@@ -51,7 +51,7 @@ router.post('/', (req, res) => {
                     }
                 }
                 res.status(200).send(response);
-                // console.log(response);
+                console.log(response);
             })
             .catch((error_1) => {
                 var response = {
@@ -73,7 +73,7 @@ router.post('/', (req, res) => {
                 }
             }
             res.status(400).send(response);
-            // console.log(error);
+            console.log(response);
         })
         
     }
