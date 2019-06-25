@@ -22,17 +22,15 @@
                   </div>
                 </li>
               </ul>
+              
               <ul class="navbar-nav navbar-nav-right">
-                
+              
                 <li class="nav-item nav-profile dropdown">
-                  <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown" aria-expanded="false">
+                  <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown" aria-expanded="true">
                     <img src="/images/dashboard/default.png" alt="profile"/>
                   </a>
                   <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
-                    <!--<a class="dropdown-item">
-                      <i class="ti-settings text-primary"></i>
-                      Settings
-                    </a>-->
+                    
                     <a class="dropdown-item">
                         <i class=" ti-id-badge  text-primary"></i>
                         <%=session.UserName%>
@@ -236,7 +234,7 @@
                         <span class="menu-title">Tasks</span>
                       </a>
                     </li>
-                <% if(role == 'Admin'){%>
+                <% if(session.UserRole == 'Admin'){%>
                 <li class="nav-item">
                   <a class="nav-link" href="/project">
                     <i class="ti-server menu-icon"></i>

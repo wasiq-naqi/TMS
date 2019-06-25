@@ -12,7 +12,8 @@
               </div>
               <h4>Hello! let's get started</h4>
               <h6 class="font-weight-light">Sign in to continue.</h6>
-              <form class="pt-3" method="POST" action="">
+              <form autocomplete="false" class="pt-3" method="POST" action="">
+                
                 <% if(login_message != ''){%>
                       <%if(notF == 'success'){%>
                         <div class="form-group">
@@ -30,10 +31,10 @@
                 </div>
                 <%}%>
                 <div class="form-group">
-                  <input required type="email" value="<% if(typeof user_email != 'undefined'){%> <%=user_email%> <%}%>" name="login_email" class="form-control form-control-lg" placeholder="Email">              
+                  <input autocomplete="off" required type="email"  value="<% if(typeof user_email != 'undefined'){%> <%=user_email%> <%}%>" name="login_email" class="form-control form-control-lg" placeholder="Email">              
                 </div>
                 <div class="form-group">
-                  <input required type="password" name="login_password" class="form-control form-control-lg" placeholder="Password">
+                  <input autocomplete="off" required type="password" name="login_password" class="form-control form-control-lg" placeholder="Password">
                 </div>
                 
                 <div class="mt-3">

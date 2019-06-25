@@ -6,6 +6,9 @@
         display: none;
     }
   }
+.no-spin::-webkit-inner-spin-button {
+-webkit-appearance: none;
+}
 .text-grey{
     color: #8d9498;
 }
