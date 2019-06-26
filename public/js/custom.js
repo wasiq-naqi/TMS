@@ -1,4 +1,7 @@
+
 $(document).ready(function () {
+    console.log(PNotify.defaults);
+    
     //Global Variables
     var THIS;
     //Default Page settings
@@ -707,9 +710,12 @@ $(document).ready(function () {
 
     $('#change_password').click(function(){
         // alert("Btn working");
+        $('#new_password').val('');
+        $('#new_password_error').html('');
         $('#passwordModal').modal('show');
     });
-    $('#set_password').click(function(){
+    $('#Form-changePassword').submit(function(e){
+        e.preventDefault();
         var val = $('#new_password').val();
         if(val == ''){
             $('#new_password_error').html("Password cannot be empty");
