@@ -1,7 +1,5 @@
 
 $(document).ready(function () {
-    console.log(PNotify.defaults);
-    
     //Global Variables
     var THIS;
     //Default Page settings
